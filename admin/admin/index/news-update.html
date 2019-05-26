@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="multipart/form-data;         charset=utf-8" />
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>新闻添加</title>
+		<link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css" />
+		<style>
+
+		</style>
+	</head>
+	<body>
+		<div class="wrap-container">
+			<form method="post" class="layui-form" style="width: 90%;padding-top: 20px;" enctype="multipart/form-data" action="http://127.0.0.1:8080/updatenews">
+				<div class="layui-form-item" style="display: none">
+					<label class="layui-form-label">id：</label>
+					<div class="layui-input-block">
+						<input type="text" id="n_id"  name="n_id" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					</div>
+
+				</div>
+				<div class="layui-form-item">
+						<label class="layui-form-label">标题：</label>
+						<div class="layui-input-block">
+							<input type="text" id="n_title" name="n_title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+						</div>
+
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">来源：</label>
+						<div class="layui-input-block">
+							<input type="text" id="n_author" name="n_author" required lay-verify="required" placeholder="请输入来源" autocomplete="off" class="layui-input">
+						</div>
+
+					</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">内容：</label>
+					<div class="layui-input-block">
+						<input type="text" id="n_content" name="n_content" required lay-verify="required" placeholder="请输入内容" autocomplete="off" class="layui-input">
+					</div>
+
+				</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">时间：</label>
+						<div class="layui-input-block">
+							<input type="date" id="n_time" name="n_time" required lay-verify="required" placeholder="请输入时间" autocomplete="off" class="layui-input">
+						</div>
+
+					</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">图片：</label>
+					<div class="layui-input-block">
+						<input type="file" accept="image/*" name="file" required lay-verify="required" placeholder="请输入图片" autocomplete="off" class="layui-input">
+					</div>
+
+				</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo" >立即提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+		</div>
+
+		<script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../static/admin/js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			layui.use(['form'], function() {
+				var form = layui.form();
+				form.render();
+				//监听提交
+				form.on('submit(formDemo)', function(data) {
+
+				});
+			});
+			//显示订单信息
+			function getQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]); return null;
+			}
+			var n_id=getQueryString("n_id");
+			var uri="http://127.0.0.1:8080";
+			function orderlist() {
+				$(document).ready(function () {
+					$.ajax({
+						url:uri+'/listnews',
+						type:'get',
+						dataType:'json',
+						data:{
+							"n_id":n_id,
+						},
+						success:function (data) {
+							for(i in data){
+								$('#n_id').attr("value",data[i].n_id);
+								$('#n_title').attr("value",data[i].n_titie);
+								$('#n_content').attr("value",data[i].n_content);
+								$('#n_time').attr("value",data[i].n_time);
+								$('#n_author').attr("value",data[i].n_author);
+							}
+						},
+						error: function(data) {
+							alert("网络服务器异常！");
+						}
+					})
+				})
+			}
+			orderlist();
+		</script>
+	</body>
+
+</html>

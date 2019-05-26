@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="multipart/form-data;         charset=utf-8" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>房源添加</title>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="css/admin.css" />
+    <style>
+    </style>
+</head>
+<body>
+<div class="wrap-container">
+    <form method="get" class="layui-form" style="width: 90%;padding-top: 20px;" enctype="multipart/form-data" action="http://127.0.0.1:8080/updateOrder">
+        <div style="display: none" class="layui-form-item">
+            <label class="layui-form-label">订单ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="o_id" id="o_id" required lay-verify="required" placeholder="请输入订单ID" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div style="display: none" class="layui-form-item">
+            <label class="layui-form-label">用户名：</label>
+            <div class="layui-input-block">
+                <input type="text" id="u_id"  name="u_id" required lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div style="display: none" class="layui-form-item">
+            <label class="layui-form-label">房源ID：</label>
+            <div class="layui-input-block">
+                <input type="text" id="h_id" name="h_id" required lay-verify="required" placeholder="请输入房源ID" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div style="display: none" id="date" class="layui-form-item">
+            <label class="layui-form-label">租房日期：</label>
+            <div class="layui-input-block">
+                <input type="date" id="o_starttime" name="o_starttime" required lay-verify="required" placeholder="请输入日期" autocomplete="off" class="layui-input" >
+            </div><br>
+        </div>
+        <div style="display: none" id="month" class="layui-form-item">
+            <label class="layui-form-label">租房月份：</label>
+            <div class="layui-input-block">
+                <input type="text" id="o_totalmonth" name="o_totalmonth" required lay-verify="required" placeholder="请输入租房月份" autocomplete="off" class="layui-input" >
+            </div>
+
+        </div>
+        <div style="display: none" id="month2" class="layui-form-item">
+            <label class="layui-form-label">续租月份：</label>
+            <div class="layui-input-block">
+                <input type="text" id="o_totalmonth2" name="o_totalmonth2" required lay-verify="required" placeholder="请输入续租月份" autocomplete="off" class="layui-input" >
+            </div><div style="margin-top: 10px;margin-left: 200px">
+            <a onclick='orderupdate4()' class="layui-btn layui-btn-primary">确认续租</a>
+            <a href="user_update.html" class="layui-btn layui-btn-primary">返回</a></div>
+        </div>
+        <div style="display: none" class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+                <input type="text" id="o_status" name="o_status" required lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <div id="btn1" style="display: none">
+                    <a onclick="orderupdate()" class="layui-btn layui-btn-normal">申请租房</a>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <a href="user_update.html" class="layui-btn layui-btn-primary">返回</a>
+                </div>
+                <div id="btn2" style="display: none">
+                    <a onclick="orderdelete()" class="layui-btn layui-btn-normal">撤销订单</a>
+                    <a href="user_update.html" class="layui-btn layui-btn-primary">返回</a>
+                </div>
+                <div id="btn3" style="display: none">
+                    <a onclick='orderupdate2("转租处理")' class="layui-btn layui-btn-primary">转租</a>
+                    <a onclick='orderupdate2("退租处理")' class="layui-btn layui-btn-primary">退租</a>
+                    <a onclick='orderupdate3()' class="layui-btn layui-btn-primary">续租</a>
+                </div>
+                <div id="btn5" style="display: none">
+                    <h1>请耐心等待管理员处理</h1>
+                </div>
+                <div id="btn4" style="display: none">
+                    <h1>您没有权限处理此订单</h1>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var uri="http://127.0.0.1:8080";
+    layui.use(['form'], function() {
+        var form = layui.form();
+        form.render();
+        //监听提交
+        form.on('submit(formDemo)', function(data) {
+        });
+    });
+    //后续转租，退租操作
+    function orderupdate2(s){
+        window.location.href=uri+'/ZtAdda?o_id='+o_id+"&o_status="+s;
+    }
+    //续租操作
+    function orderupdate3() {
+        $('#month2').css('display','block');
+        $('#btn3').css('display','none');
+    }
+    function orderupdate4() {
+        var sss=parseInt($('input[name="o_totalmonth"]').val())+parseInt($('input[name="o_totalmonth2"]').val());
+        $.ajax({
+            url:uri+'/updateOrder',
+            type:'get',
+            dataType:'json',
+            data:{
+                "o_id":o_id,
+                "u_id":$('input[name="u_id"]').val(),
+                "h_id":$('input[name="h_id"]').val(),
+                "o_starttime":$('input[name="o_starttime"]').val(),
+                "o_totalmonth":sss,
+                "o_status":"续租处理",
+            },
+            success:function (data) {
+                if (data==1){
+
+                } else {
+                    alert("处理失败");
+                }
+            },
+            error: function(data) {
+                alert("网络服务器异常！");
+            }
+        })
+        $.ajax({
+            url:uri+'/ZtAdd',
+            type:'get',
+            dataType:'json',
+            data:{
+                "time2":"",
+                "o_number":"",
+                "h_id":$('input[name="h_id"]').val(),
+                "h_zt":"续租处理",
+                "ztm":1,
+            },
+            success:function (data) {
+                if (data==1){
+                    alert("处理成功");
+                } else {
+                    alert("处理失败");
+                }
+            },
+            error: function(data) {
+                alert("网络服务器异常！");
+            }
+        })
+    }
+    //订单的删除操作
+    function orderdelete(){
+        window.location.href=uri+'/deleteOrder?o_id='+o_id;
+    }
+    //显示订单信息
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    var o_id=getQueryString("o_id");
+
+    function orderlist() {
+        $(document).ready(function () {
+            $.ajax({
+                url:uri+'/listOrder',
+                type:'get',
+                dataType:'json',
+                data:{
+                    "o_id":o_id,
+                },
+                success:function (data) {
+                    for(i in data){
+                        $('#o_id').attr("value",data[i].o_id);
+                        $('#u_id').attr("value",data[i].u_id);
+                        $('#h_id').attr("value",data[i].h_id);
+                        $('#o_starttime').attr("value",data[i].o_starttime);
+                        $('#o_totalmonth').attr("value",data[i].o_totalmonth);
+                        $('#o_status').attr("value",data[i].o_status);
+                        $('#time').attr("valur")
+                    }
+                },
+                error: function(data) {
+                    alert("网络服务器异常！");
+                }
+            })
+        })
+    }
+    orderlist();
+    //根据订单状态显示操作界面
+    $.ajax({
+        url:uri+'/listOrder',
+        type:'get',
+        dataType:'json',
+        data:{
+            "o_id":o_id,
+            "o_status":"同意看房申请",
+        },
+        success:function (data) {
+            if (data.length==1){
+                $('#month').css("display","inline");
+                $('#date').css("display","inline");
+                $('#btn1').css("display","inline");
+            }
+        }
+    })
+    $.ajax({
+    	url:uri+'/listOrder',
+    	type:'get',
+    	dataType:'json',
+    	data:{
+    		"o_id":o_id,
+    		"o_status":"申请看房",
+    	},
+    	success:function (data) {
+            if (data.length==1) {
+                $('#btn2').css("display", "inline");
+            }
+    	}
+    })
+    $.ajax({
+    	url:uri+'/listOrder',
+    	type:'get',
+    	dataType:'json',
+    	data:{
+    		"o_id":o_id,
+    		"o_status":"已通过",
+    	},
+    	success:function (data) {
+    		if (data.length==1){
+                $('#btn3').css("display", "inline");
+    		}
+    	}
+    })
+    $.ajax({
+        url:uri+'/listOrder',
+        type:'get',
+        dataType:'json',
+        data:{
+            "o_id":o_id,
+            "o_status":"已处理",
+        },
+        success:function (data) {
+            if (data.length==1){
+                $('#btn4').css("display", "inline");
+            }
+        }
+    })
+    $.ajax({
+        url:uri+'/listOrder',
+        type:'get',
+        dataType:'json',
+        data:{
+            "o_id":o_id,
+            "o_status":"租处理",
+        },
+        success:function (data) {
+            if (data.length==1){
+                $('#btn5').css("display", "inline");
+            }
+        }
+    })
+    $.ajax({
+        url:uri+'/listOrder',
+        type:'get',
+        dataType:'json',
+        data:{
+            "o_id":o_id,
+            "o_status":"申请租房",
+        },
+        success:function (data) {
+            if (data.length==1){
+                $('#btn5').css("display", "inline");
+            }
+        }
+    })
+    //同意看房申请操作
+    function  orderupdate() {
+        if ($('input[name="o_totalmonth"]').val() == null||$('input[name="o_totalmonth"]').val() == ""||$('input[name="o_starttime"]').val()==""||$('input[name="o_starttime"]').val()==null) {
+            alert("请完善信息！")
+        }else {
+        var fileDir = $('input[name="o_status"]').val();
+        var suffix = fileDir.substr(fileDir.lastIndexOf("："));
+        $(document).ready(function () {
+            $.ajax({
+                url:uri+'/updateOrder',
+                type:'get',
+                dataType:'json',
+                data:{
+                    "o_id":o_id,
+                    "u_id":$('input[name="u_id"]').val(),
+                    "h_id":$('input[name="h_id"]').val(),
+                    "o_starttime":$('input[name="o_starttime"]').val(),
+                    "o_totalmonth":$('input[name="o_totalmonth"]').val(),
+                    "o_status":"申请租房，申请人电话号码"+suffix,
+                },
+                success:function (data) {
+                    if (data==1){
+
+                    } else {
+                        alert("处理失败");
+                    }
+                },
+                error: function(data) {
+                    alert("网络服务器异常！");
+                }
+            })
+            $.ajax({
+                url:uri+'/ZtAdd',
+                type:'get',
+                dataType:'json',
+                data:{
+                    "time2":"",
+                    "o_number":"",
+                    "h_id":$('input[name="h_id"]').val(),
+                    "h_zt":"申请租房，申请人电话号码"+suffix,
+                    "ztm":1,
+                },
+                success:function (data) {
+                    if (data==1){
+                        alert("处理成功");
+                    } else {
+                        alert("处理失败");
+                    }
+                },
+                error: function(data) {
+                    alert("网络服务器异常！");
+                }
+            })
+        })}
+    }
+</script>
+</body>
+
+</html>

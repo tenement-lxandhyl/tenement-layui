@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="multipart/form-data;         charset=utf-8" />
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>房源添加</title>
+		<link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css" />
+		<style>
+
+		</style>
+	</head>
+	<body>
+		<div class="wrap-container">
+			<form method="get" class="layui-form" style="width: 90%;padding-top: 20px;" enctype="multipart/form-data" action="http://127.0.0.1:8080/updateOrder">
+					<div class="layui-form-item">
+						<label class="layui-form-label">订单ID：</label>
+						<div class="layui-input-block">
+							<input type="text" name="o_id" id="o_id" required lay-verify="required" placeholder="请输入订单ID" autocomplete="off" class="layui-input">
+						</div>
+
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">用户名：</label>
+						<div class="layui-input-block">
+							<input type="text" id="u_id"  name="u_id" required lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+						</div>
+
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">房源ID：</label>
+						<div class="layui-input-block">
+							<input type="text" id="h_id" name="h_id" required lay-verify="required" placeholder="请输入房源ID" autocomplete="off" class="layui-input">
+						</div>
+
+					</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">时间：</label>
+					<div class="layui-input-block">
+						<input type="date" id="o_starttime" name="o_starttime" required lay-verify="required" placeholder="请输入时间" autocomplete="off" class="layui-input" >
+					</div>
+
+				</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">租房月份：</label>
+						<div class="layui-input-block">
+							<input type="text" id="o_totalmonth" name="o_totalmonth" required lay-verify="required" placeholder="请输入租房月份" autocomplete="off" class="layui-input" >
+						</div>
+
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">状态：</label>
+						<div class="layui-input-block">
+							<input type="text" id="o_status" name="o_status" required lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input">
+						</div>
+
+					</div>
+
+					<div class="layui-form-item">
+						<div id="houseupdate" class="layui-input-block">
+							<a onclick="orderupdate()" class="layui-btn ">提交</a>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+		</div>
+
+		<script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../static/admin/js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			layui.use(['form'], function() {
+				var form = layui.form();
+				form.render();
+				//监听提交
+				form.on('submit(formDemo)', function(data) {
+				});
+			});
+			//显示房源信息
+			function getQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]); return null;
+			}
+			var o_id=getQueryString("o_id");
+			var uri="http://127.0.0.1:8080";
+			function orderlist() {
+				$(document).ready(function () {
+					$.ajax({
+						url:uri+'/listOrder',
+						type:'get',
+						dataType:'json',
+						data:{
+							"o_id":o_id,
+						},
+						success:function (data) {
+							for(i in data){
+								$('#o_id').attr("value",data[i].o_id);
+								$('#u_id').attr("value",data[i].u_id);
+								$('#h_id').attr("value",data[i].h_id);
+								$('#o_starttime').attr("value",data[i].o_starttime);
+								$('#o_totalmonth').attr("value",data[i].o_totalmonth);
+								$('#o_status').attr("value",data[i].o_status);
+								$('#houseupdate').append('<a class="layui-btn layui-btn-primary" href="http://127.0.0.1:8080/ZtAdd?h_id='+data[i].h_id+'&h_zt=待租中&ztm=123">修改房源信息</a>')
+							}
+						},
+						error: function(data) {
+							alert("网络服务器异常！");
+						}
+					})
+				})
+			}
+			orderlist();
+			//订单修改
+			function  orderupdate() {
+				$(document).ready(function () {
+					$.ajax({
+						url:uri+'/updateOrder',
+						type:'get',
+						dataType:'json',
+						data:{
+							"o_id":o_id,
+							"u_id":$('input[name="u_id"]').val(),
+							"h_id":$('input[name="h_id"]').val(),
+							"o_starttime":$('input[name="o_starttime"]').val(),
+							"o_totalmonth":$('input[name="o_totalmonth"]').val(),
+							"o_status":$('input[name="o_status"]').val(),
+						},
+						success:function (data) {
+							if (data==1){
+
+							} else {
+								alert("处理失败");
+							}
+						},
+						error: function(data) {
+							alert("网络服务器异常！");
+						}
+					})
+					$.ajax({
+						url:uri+'/ZtAdd',
+						type:'get',
+						dataType:'json',
+						data:{
+							"time2":"",
+							"o_number":"",
+							"h_id":$('input[name="h_id"]').val(),
+							"h_zt":$('input[name="o_status"]').val(),
+							"ztm":1,
+						},
+						success:function (data) {
+							if (data==1){
+								alert("处理成功");
+							} else {
+								alert("处理失败");
+							}
+						},
+						error: function(data) {
+							alert("网络服务器异常！");
+						}
+					})
+				})
+			}
+		</script>
+	</body>
+
+</html>

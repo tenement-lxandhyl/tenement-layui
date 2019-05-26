@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>主页</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/listhouse.css">
+  <link rel="stylesheet" href="css/housel_css.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner body-width">
+      <a href="#" class="logo"></a>
+<!--      <div class="category">-->
+<!--        <a href="#" class="category-link">分类</a>-->
+<!--        <i class="icon-arrow"></i>-->
+<!--        <div class="category-result"></div>-->
+<!--        &lt;!&ndash; 边框 &ndash;&gt;-->
+<!--        <span class="btn-border"></span>-->
+<!--        <span class="result-border"></span>-->
+<!--        <span class="neck-border"></span>-->
+<!--      </div>-->
+<!--      <div class="search">-->
+<!--        <input type="text" class="search-text" placeholder="Seach here...">-->
+<!--        <button class="search-btn"><i class="icon-search"></i></button>-->
+<!--      </div>-->
+      <nav class="header-nav">
+        <ul>
+          <li>
+            <span class="line"></span>
+            <a href="see.html" class="dreamer">长安租房中介网站</a>
+          </li>
+          <li id="user4">
+            <span class="line"></span>
+            <a href="registered.html" class="icon-text__pink register">注册</a>
+          </li>
+          <li id="user1" style="display: block" >
+            <span class="line"></span>
+            <a href="login.html">登录</a>
+          </li>
+          <li id="user2" style="display: none" >
+            <span class="line"></span>
+            <a id="user3" href=""  >注销</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="header-shadow"></div>
+  </header>
+<!--列表内容-->
+  <div class="main">
+    <div class="main-inner body-width">
+      <div class="banner clearfix">
+        <div class="slider" id="slider">
+
+        </div>
+      <div class="banner-info">
+        <div class="news body-border">
+          <ul>
+            <li class="link">
+              <a class="houselist" href="#">id：</a>
+              <span></span>
+              <a  class="houselist" href="#">区域：</a>
+              <span></span>
+              <a class="houselist"  href="#">方式：</a>
+              <span></span>
+              <a class="houselist"  href="#">价格：</a>
+              <span></span>
+              <a class="houselist"  href="#">大小：</a>
+              <span></span>
+              <a  class="houselist" href="#">户型：</a>
+              <span></span>
+              <a  class="houselist" href="#">朝向：</a>
+              <span></span>
+            </li>
+            <li class="choose">
+              <a class="hr_title" href="#">详情</a>
+            </li>
+            <li class="assistant">
+              <p><a style="height: 150px;margin-top: 20px" class="houselist"  href="#"></a></p>
+              <br><button class="housetop_btn2" onclick='orderGetHId()'value="预约看房">预约看房</button>
+            </li>
+          </ul>
+        </div>
+        <!--          <div class="app body-border"><a href="#"></a></div>-->
+      </div></div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-link">
+        <div class="footer-link__item">
+          <h4 class="footer-title">关于我们</h4>
+          <ul class="footer-list">
+            <li class="item"><a href="#">关于我们</a></li>
+            <li class="item"><a href="#">帮助中心</a></li>
+            <li class="item"><a href="#">加入我们</a></li>
+            <li class="item"><a href="#">联系我们</a></li>
+            <li class="item"><a href="#">标签集</a></li>
+            <li class="item"><a href="#">商务合作</a></li>
+            <li class="item"><a href="#">免责声明</a></li>
+          </ul>
+        </div>
+        <div class="footer-link__item">
+          <h4 class="footer-title">帮助中心</h4>
+          <ul class="footer-list">
+            <li class="item"><a href="#">关于我们</a></li>
+            <li class="item"><a href="#">帮助中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-link__item">
+          <h4 class="footer-title">举报中心</h4>
+          <ul class="footer-list">
+            <li class="item"><a href="#">关于我们</a></li>
+            <li class="item"><a href="#">帮助中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-link__item">
+          <h4 class="footer-title">关注我们</h4>
+          <ul class="footer-list">
+            <li class="item"><a href="#">关于我们</a></li>
+            <li class="item"><a href="#">帮助中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-link__item">
+          <h4 class="footer-title">友情链接</h4>
+          <ul class="footer-list">
+            <li class="item"><a href="#">关于我们</a></li>
+            <li class="item"><a href="#">帮助中心</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fopter-copyright">
+        <p>长安租房中介网站欢迎您！</p>
+      </div>
+    </div>
+  </footer>
+
+
+
+</body>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/script.js"></script>
+<script type="text/javascript" src="js/jquery.z-pager.js" charset="utf-8"></script>
+<script type="text/javascript">
+  //获取传递的地址参数
+  function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+  }
+  //传递房源ID
+  function orderGetHId(){
+    var h_id=getQueryString("h_id");
+    window.open("order_.html?h_id="+h_id)
+  }
+  $(document).ready(function(){
+    if (getQueryString("h_id")==""||getQueryString("h_id")==null||getQueryString("h_id")==undefined){
+      window.location.href='see.html';
+    }
+    console.log(11);
+    var uri = "http://127.0.0.1:8080";
+    //登录检测
+    function usersYes(){
+      userid = localStorage.getItem("users");
+      console.log(userid);
+      if(userid != null){
+        $('#user4').css('display','none');
+        $('#user1').css('display','none');
+        $('#user2').css('display','block');
+        $('#user2').append(userid);
+        $('#user3').on("click",function () {
+          window.localStorage.clear();
+          window.location.href('see.html');
+          $('#user1').css('display','block');
+          $('#user2').css('display','none');
+        })
+      }
+    }
+    usersYes();
+    //单个房源的搜索
+    $.ajax({
+      url: uri + "/listHouse",
+      type: "get",
+      dataType: "json",
+      data:{
+        h_id:getQueryString("h_id"),
+      },
+      success: function (data) {
+        for(i in data){
+          $('#slider').append('<img style="height: 100%;width: 100%;" src=img/houses/'+data[i].h_vacancy+'>')
+          $('.houselist').eq(0).append(data[i].h_id);
+          $('.houselist').eq(1).append(data[i].h_area);
+          $('.houselist').eq(2).append(data[i].h_way);
+          $('.houselist').eq(3).append(data[i].h_price);
+          $('.houselist').eq(4).append(data[i].h_size);
+          $('.houselist').eq(5).append(data[i].h_type);
+          $('.houselist').eq(6).append(data[i].h_orientation);
+          $('.houselist').eq(7).append(data[i].h_feature);
+        }
+      },
+      error : function() {
+        alert("网络服务器异常！");
+      }
+    })
+  });
+
+</script>
+</html>

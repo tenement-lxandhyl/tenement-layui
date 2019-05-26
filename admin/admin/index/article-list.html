@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>订单管理</title>
+	<link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/admin/dist/pagination.css" />
+	<script src="../../static/admin/js/html5shiv.min.js"></script>
+</head>
+
+<body>
+<div class="page-content-wrap">
+	<form class="layui-form" action="">
+		<div class="layui-form-item">
+			<div class="layui-inline tool-btn">
+<!--				<button class="layui-btn layui-btn-small layui-btn-normal addBtn hidden-xs" data-url="menu-add.html"><i class="layui-icon">&#xe654;</i></button>-->
+				<!--								<button class="layui-btn layui-btn-small layui-btn-warm hidden-xs" onclick="houselist()" ><i class="iconfont">&#xe656;</i></button>-->
+			</div>
+			<div class="layui-inline">
+				<input type="text" name="title" required lay-verify="required" placeholder="请输入搜索用户用户名" autocomplete="off" class="layui-input">
+			</div>
+			<a class="layui-btn layui-btn-normal" onclick="orderlist()" >搜索</a>
+		</div>
+	</form>
+	<div class="layui-form" id="table-list">
+
+		<article class="htmleaf-container">
+			<div id="wrapper">
+				<section>
+
+					<div class="data-container"></div>
+
+					<div id="pagination-demo1"></div>
+				</section>
+			</div>
+		</article>
+
+	</div>
+</div>
+<script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/admin/js/jquery-3.3.1.min.js"></script>
+<script src="../../static/admin/dist/pagination.js"></script>
+<script>
+</script>
+</body>
+<script type="text/javascript" charset="utf-8">
+	//分页及表单信息
+	var uri = "http://127.0.0.1:8080";
+	orderlist();
+	function orderlist(){$(document).ready(function(){
+		$.ajax({
+			url: uri + "/listOrder",
+			type: "get",
+			dataType: "json",
+			data:{
+				"u_id":$('input[name="title"]').val(),
+				"o_status":"申请",
+			},
+			success: function (data) {
+				if (data.length!=0){
+					$('#htmleaf-container').empty();
+					var o_id= new Array();
+					var u_id= new Array();
+					var h_id= new Array();
+					var o_starttime= new Array();
+					var o_totalmonth= new Array();
+					var o_status= new Array();
+					for (var i in data) {
+						o_id[i]=data[i].o_id;
+						u_id[i]=data[i].u_id;
+						h_id[i]=data[i].h_id;
+						o_starttime[i]=data[i].o_starttime;
+						if (data[i].o_totalmonth==""||data[i].o_totalmonth==null){o_totalmonth[i]=""}
+						else {o_totalmonth[i]=data[i].o_totalmonth;}
+						o_status[i]=data[i].o_status;
+					}
+					function createDemo(name){
+						var container = $('#pagination-' + name);
+						var sources = function(){
+							var result = [];
+
+							for(var i = 1; i <= data.length; i++){
+								result.push(i);
+							}
+
+							return result;
+						}();
+
+						var options = {
+							dataSource: sources,
+							className: 'paginationjs-theme-blue',
+							callback: function(response, pagination){
+								window.console && console.log(response, pagination);
+
+								var dataHtml = '<table class="layui-table" lay-skin="line">\n' +
+										'<colgroup>' +
+										'<col width="50">' +
+										'<col class="hidden-xs" width="50">' +
+										'<col class="hidden-xs" width="100">' +
+										'<col class="hidden-xs" width="100">' +
+										'<col>' +
+										'<col width="80">' +
+										'<col width="130">' +
+										'</colgroup>' +
+										'<thead>' +
+										'<tr>' +
+										'<th>' +
+										'</th>' +
+										'<th class="hidden-xs">订单ID</th>' +
+										'<th class="hidden-xs">用户名</th>' +
+										'<th class="hidden-xs">房源ID</th>' +
+										'<th>时间</th>' +
+										'<th>租房月份</th>' +
+										'<th>状态</th>' +
+										'<th>操作</th>' +
+										'</tr>' +
+										'</thead><tbody >';
+
+								$.each(response, function(index, item){
+									dataHtml += '<tr id="node" class="parent collapsed"><td></td><td id="o_id" class="hidden-xs">'
+											+o_id[item-1]+
+											'</td><td id="u_id" class="hidden-xs">'
+											+u_id[item-1]+
+											'</td><td id="h_id" class="hidden-xs">'
+											+h_id[item-1]+
+											'</td><td id="o_starttime">'
+											+o_starttime[item-1]+
+											'</td><td id="o_totalmonth">'
+											+o_totalmonth[item-1]+
+											'</td><td><button id="o_status" class="layui-btn layui-btn-mini layui-btn-normal table-list-status">'
+											+o_status[item-1]+
+											'</button></td> <td><div class="layui-inline"> ' +
+											'</button><a class="layui-btn" data-id="1" href="order_updata.html?o_id='+o_id[item-1]+'"><i class="layui-icon">处理</i></a>'+
+											// '<a class="layui-btn" data-id="1" href="http://127.0.0.1:8080/deleteOrder?o_id='+o_id[item-1]+'"><i class="layui-icon">&#xe640;</i></a>' +
+											'</div></td></tr>';
+								});
+								dataHtml += '</tbody></table>';
+
+								container.prev().html(dataHtml);
+							}
+						};
+
+						//$.pagination(container, options);
+
+						container.addHook('beforeInit', function(){
+							window.console && console.log('beforeInit...');
+						});
+						container.pagination(options);
+
+						container.addHook('beforePageOnClick', function(){
+							window.console && console.log('beforePageOnClick...');
+							//return false
+						});
+						console.log(container);
+					};
+					createDemo('demo1');
+				}else {
+					alert("未查询到结果！")
+				}
+			},
+			error: function(data) {
+				alert("网络服务器异常！");
+			}
+		})
+	});
+	}
+</script>
+</html>

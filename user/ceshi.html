@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<button class="abcd" >测试按钮1</button>
+<div id="choosesub">
+    <ul>
+
+    </ul>
+    <table>
+        <tr>
+        </tr>
+    </table>
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+            console.log(11);
+            var uri = "http://127.0.0.1:8080";
+            $.ajax({
+                url: uri + "/listnews",
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    var s = data;
+                    var ss=s.n_id;
+                    for(var x in data)
+                    {
+                        console.log(data[x].n_id);
+                        var sub = $("<li></li>").text(data[x].n_id);
+                        $("#choosesub ul").append(sub);
+                    }
+                    console.log(s);
+                },
+                error : function() {
+                    alert("网络服务器异常！");
+                }
+            });
+
+    });
+</script>
+</html>

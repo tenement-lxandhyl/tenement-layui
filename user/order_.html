@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/bd/demo.css">
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<header class="header">
+    <div class="header-inner body-width">
+        <a href="#" class="logo"></a>
+        <div class="category">
+
+            <!-- 边框 -->
+
+        </div>
+
+        <nav class="header-nav">
+            <ul>
+                <li>
+                    <span class="line"></span>
+                    <a href="see.html" class="dreamer">长安租房中介网站</a>
+
+                </li>
+                <li id="user4">
+                    <span class="line"></span>
+                    <a href="registered.html" class="icon-text__pink register">注册</a>
+                </li>
+                <li id="user1" style="display: block" >
+                    <span class="line"></span>
+                    <a href="login.html">登录</a>
+                </li>
+                <li id="user2" style="display: none" >
+                    <span class="line"></span>
+                    <a id="user3" href=""  >注销</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header-shadow"></div>
+</header>
+<div class="main">
+    <div class="main-inner body-width">
+        <form id="demo" autocomplete="off" method="post">
+            <p>
+                <span class="tip">用户名：</span>
+                <input id="u_id" type="text" name="u_id"  >
+            </p>
+            <p>
+                <span class="tip">房源编号：</span>
+                <input id="h_id" type="text" name="h_id"  >
+            </p>
+            <p>
+                <span class="tip">看房时间：</span>
+                <input type="date" name="o_starttime">
+                <input  placeholder="详细时间,例:上午8.00" type="text" name="time2">
+            </p>
+            <p>
+                <span class="tip">联系号码：</span>
+                <input type="text" name="o_number" class="tel">
+            </p>
+            <button type="button" onclick="addorder()">确认</button>
+        </form>
+    </div>
+</div>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-link">
+            <div class="footer-link__item">
+                <h4 class="footer-title">关于我们</h4>
+                <ul class="footer-list">
+                    <li class="item"><a href="#">关于我们</a></li>
+                    <li class="item"><a href="#">帮助中心</a></li>
+                    <li class="item"><a href="#">加入我们</a></li>
+                    <li class="item"><a href="#">联系我们</a></li>
+                    <li class="item"><a href="#">标签集</a></li>
+                    <li class="item"><a href="#">商务合作</a></li>
+                    <li class="item"><a href="#">免责声明</a></li>
+                </ul>
+            </div>
+            <div class="footer-link__item">
+                <h4 class="footer-title">帮助中心</h4>
+                <ul class="footer-list">
+                    <li class="item"><a href="#">关于我们</a></li>
+                    <li class="item"><a href="#">帮助中心</a></li>
+                </ul>
+            </div>
+            <div class="footer-link__item">
+                <h4 class="footer-title">举报中心</h4>
+                <ul class="footer-list">
+                    <li class="item"><a href="#">关于我们</a></li>
+                    <li class="item"><a href="#">帮助中心</a></li>
+                </ul>
+            </div>
+            <div class="footer-link__item">
+                <h4 class="footer-title">关注我们</h4>
+                <ul class="footer-list">
+                    <li class="item"><a href="#">关于我们</a></li>
+                    <li class="item"><a href="#">帮助中心</a></li>
+                </ul>
+            </div>
+            <div class="footer-link__item">
+                <h4 class="footer-title">友情链接</h4>
+                <ul class="footer-list">
+                    <li class="item"><a href="#">关于我们</a></li>
+                    <li class="item"><a href="#">帮助中心</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="fopter-copyright">
+            <p>长安租房中介网站欢迎您！</p>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/script.js"></script>
+<script type="text/javascript">
+    //登录检测
+    function usersYes(){
+        userid = localStorage.getItem("users");
+        console.log(userid);
+        if(userid != null){
+            $('#user4').css('display','none');
+            $('#user1').css('display','none');
+            $('#user2').css('display','block');
+            $('#user2').append(userid);
+            $('#user3').on("click",function () {
+                window.localStorage.clear();
+                window.location.href('see.html');
+                $('#user1').css('display','block');
+                $('#user2').css('display','none');
+            })
+        }
+    }
+    usersYes();
+    //获取传递的地址参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    //获取用户姓名以及看房房源ID
+    function orderGetId() {
+        var u_name = localStorage.getItem("u_name");
+        var h_id = getQueryString("h_id");
+        $('#u_id').attr('value',u_name);
+        $('#h_id').attr('value',h_id);
+    }
+    orderGetId();
+    //提交表单数据
+    function addorder(){
+        if($('input[name="o_number"]').val().length!=11)
+        {
+            alert('您输入的手机号码格式不对！');
+        }else{
+    $(document).ready(function(){
+        var uri = "http://127.0.0.1:8080";
+        $.ajax({
+            url:uri+'/addOrder',
+            type:'post',
+            dataType:'json',
+            data:{
+                "u_id":$('input[name="u_id"]').val(),
+                "h_id":$('input[name="h_id"]').val(),
+                "o_starttime":$('input[name="o_starttime"]').val(),
+                "o_number":$('input[name="o_number"]').val(),
+                "time2":$('input[name="time2"]').val()
+            },
+            success:function (data) {
+                var orderYN =data;
+                if(orderYN==1){
+                    alert("登记成功");
+                    window.location.href='see.html';
+                }else {
+                    alert("登记失败");
+                }
+            },
+            error: function(data) {
+                alert("网络服务器异常！");
+            }
+        })
+        $.ajax({
+            url:uri+'/ZtAdd',
+            type:'get',
+            dataType:'json',
+            data:{
+                "h_id":$('input[name="h_id"]').val(),
+                "o_number":$('input[name="o_number"]').val(),
+                "time2":$('input[name="time2"]').val(),
+                "ztm":1,
+            },
+            success:function (data) {
+                var orderYN =data;
+            },
+            error: function(data) {
+                alert("网络服务器异常！");
+            }
+        })
+    });}
+    }
+</script>
+</html>

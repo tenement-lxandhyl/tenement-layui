@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>网站后台管理模版</title>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="dist/pagination.css"/>
+</head>
+<body>
+<div class="layui-tab page-content-wrap">
+    <ul class="layui-tab-title">
+        <li class="layui-this">个人订单处理</li>
+        <li>修改资料</li>
+        <li>修改密码</li>
+        <li><a href="see.html">返回主页</a></li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+        <div class="page-content-wrap">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline tool-btn">
+                        <!--				<button class="layui-btn layui-btn-small layui-btn-normal addBtn hidden-xs" data-url="menu-add.html"><i class="layui-icon">&#xe654;</i></button>-->
+                        <!--								<button class="layui-btn layui-btn-small layui-btn-warm hidden-xs" onclick="houselist()" ><i class="iconfont">&#xe656;</i></button>-->
+                    </div>
+                    <!--                        <div class="layui-inline">-->
+                    <!--                            <input type="text" name="title" required lay-verify="required" placeholder="请输入搜索用户用户名" autocomplete="off" class="layui-input">-->
+                    <!--                        </div>-->
+                    <!--                        <a class="layui-btn layui-btn-normal" onclick="orderlist()" >搜索</a>-->
+                </div>
+            </form>
+            <div class="layui-form" id="table-list">
+
+                <article class="htmleaf-container">
+                    <div id="wrapper">
+                        <section>
+
+                            <div class="data-container"></div>
+
+                            <div id="pagination-demo1"></div>
+                        </section>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </div>
+        <div class="layui-tab-item ">
+            <form class="layui-form"  style="width: 90%;padding-top: 20px;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">ID：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="u_id" name="u_id" disabled autocomplete="off" class="layui-input layui-disabled" value="1">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="u_nickname" name="u_nickname" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="u_name" name="u_name" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机号码：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="u_number" name="u_number" required  lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="u_sex" name="u_sex" required  lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">生日：</label>
+                    <div class="layui-input-block">
+                        <input type="date" id="u_birthday" name="u_birthday" required  lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">身份证号码：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="u_idcard" name="u_idcard" required  lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a class="layui-btn " onclick="adminupdate()">立即提交</a>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form" v style="width: 90%;padding-top: 20px;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">ID：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="u_id2" name="a_id2" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: none">
+                    <label class="layui-form-label">原密码：</label>
+                    <div class="layui-input-block">
+                        <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">旧密码：</label>
+                    <div class="layui-input-block">
+                        <input type="password" id="password1" name="password1" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">新密码：</label>
+                    <div class="layui-input-block">
+                        <input type="password" id="password2" name="password2" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">重复密码：</label>
+                    <div class="layui-input-block">
+                        <input type="password" id="password3" name="password3" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a class="layui-btn layui-btn-normal" onclick="adminupdatepass()">立即提交</a>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/html5shiv.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="dist/pagination.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    //Demo
+    layui.use(['form','element'], function(){
+        var form = layui.form();
+        var element = layui.element();
+        form.render();
+        //监听信息提交
+        form.on('submit(adminInfo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+        //监听密码提交
+        form.on('submit(adminPassword)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+    //获取当前用户信息
+    var u_id=localStorage.getItem("u_id");
+    var uri="http://127.0.0.1:8080"
+    adminList();
+    function  adminList() {
+        // $(document).ready(function () {
+        $.ajax({
+            url:uri+"/listUser",
+            type:'get',
+            dataType:'json',
+            data:{
+                "u_id":u_id,
+            },
+            success:function (data) {
+                for(i in data){
+                    $('#password').attr("value",data[i].u_pass);
+                    $('#u_id').attr("value",data[i].u_id);
+                    $('#u_id2').attr("value",data[i].u_id);
+                    $('#u_nickname').attr("value",data[i].u_nickname);
+                    $('#u_name').attr("value",data[i].u_name);
+                    $('#u_number').attr("value",data[i].u_number);
+                    $('#u_sex').attr("value",data[i].u_sex);
+                    $('#u_birthday').attr("value",data[i].u_birthday);
+                    $('#u_idcard').attr("value",data[i].u_idcard);
+                }
+            },
+            error: function(data) {
+                alert("网络服务器异常！");
+            }
+        })
+        // })
+    }
+    function adminupdate() {
+        console.log(1);
+        // $(document).ready(function () {
+        $.ajax({
+            url:uri+"/updateUser",
+            type:'get',
+            dataType:'json',
+            data:{
+                "u_id":u_id,
+                "u_pass":$('input[name="password"]').val(),
+                "u_nickname":$('input[name="u_nickname"]').val(),
+                "u_name":$('input[name="u_name"]').val(),
+                "u_number":$('input[name="u_number"]').val(),
+                "u_sex":$('input[name="u_sex"]').val(),
+                "u_birthday":$('input[name="u_birthday"]').val(),
+                "u_idcard":$('input[name="u_idcard"]').val(),
+            },
+            success:function (data) {
+                if(data==1){
+                    alert("修改成功")
+                }else {
+                    alert("修改失败")
+                }
+            },
+            error: function(data) {
+                alert("网络服务器异常！");
+            }
+        })
+        // })
+    }
+    function adminupdatepass() {
+        if($('input[name="password"]').val()==$('input[name="password1"]').val()){
+            if ($('input[name="password2"]').val()==$('input[name="password3"]').val()) {
+                adminupdate();
+            }else {
+                alert("两次输入的新密码不一致!")
+            }
+        }else {
+            alert("原密码不正确!")
+        }
+    }
+    //
+</script>
+<script type="text/javascript" charset="utf-8">
+    //分页及表单信息
+    var uri = "http://127.0.0.1:8080";
+    orderlist();
+    function orderlist(){$(document).ready(function(){
+        $.ajax({
+            url: uri + "/listOrder",
+            type: "get",
+            dataType: "json",
+            data:{
+                "u_id":localStorage.getItem("user"),
+            },
+            success: function (data) {
+                if (data.length!=0){
+                    $('#htmleaf-container').empty();
+                    var o_id= new Array();
+                    var u_id= new Array();
+                    var h_id= new Array();
+                    var o_starttime= new Array();
+                    var o_totalmonth= new Array();
+                    var o_status= new Array();
+                    for (var i in data) {
+                        o_id[i]=data[i].o_id;
+                        u_id[i]=data[i].u_id;
+                        h_id[i]=data[i].h_id;
+                        o_starttime[i]=data[i].o_starttime;
+                        if (data[i].o_totalmonth==""||data[i].o_totalmonth==null){o_totalmonth[i]=""}
+                        else {o_totalmonth[i]=data[i].o_totalmonth;}
+                        o_status[i]=data[i].o_status;
+                    }
+                    function createDemo(name){
+                        var container = $('#pagination-' + name);
+                        var sources = function(){
+                            var result = [];
+
+                            for(var i = 1; i <= data.length; i++){
+                                result.push(i);
+                            }
+
+                            return result;
+                        }();
+
+                        var options = {
+                            dataSource: sources,
+                            className: 'paginationjs-theme-blue',
+                            callback: function(response, pagination){
+                                window.console && console.log(response, pagination);
+
+                                var dataHtml = '<table class="layui-table" lay-skin="line">\n' +
+                                    '<colgroup>' +
+                                    '<col width="50">' +
+                                    '<col class="hidden-xs" width="50">' +
+                                    '<col class="hidden-xs" width="100">' +
+                                    '<col class="hidden-xs" width="100">' +
+                                    '<col>' +
+                                    '<col width="80">' +
+                                    '<col width="130">' +
+                                    '</colgroup>' +
+                                    '<thead>' +
+                                    '<tr>' +
+                                    '<th>' +
+                                    '</th>' +
+                                    '<th class="hidden-xs">订单ID</th>' +
+                                    '<th class="hidden-xs">用户名</th>' +
+                                    '<th class="hidden-xs">房源ID</th>' +
+                                    '<th>时间</th>' +
+                                    '<th>租房月份</th>' +
+                                    '<th>状态</th>' +
+                                    '<th>操作</th>' +
+                                    '</tr>' +
+                                    '</thead><tbody >';
+
+                                $.each(response, function(index, item){
+                                    dataHtml += '<tr id="node" class="parent collapsed"><td></td><td id="o_id" class="hidden-xs">'
+                                        +o_id[item-1]+
+                                        '</td><td id="u_id" class="hidden-xs">'
+                                        +u_id[item-1]+
+                                        '</td><td id="h_id" class="hidden-xs">'
+                                        +h_id[item-1]+
+                                        '</td><td id="o_starttime">'
+                                        +o_starttime[item-1]+
+                                        '</td><td id="o_totalmonth">'
+                                        +o_totalmonth[item-1]+
+                                        '</td><td><button id="o_status" class="layui-btn layui-btn-mini layui-btn-normal table-list-status">'
+                                        +o_status[item-1]+
+                                        '</button></td> <td><div class="layui-inline"> ' +
+                                        '</button><a class="layui-btn" data-id="1" href="order_cl.html?o_id='+o_id[item-1]+'"><i class="layui-icon">处理</i></a></div></td></tr>';
+                                });
+
+                                dataHtml += '</tbody></table>';
+
+                                container.prev().html(dataHtml);
+                            }
+                        };
+
+                        //$.pagination(container, options);
+
+                        container.addHook('beforeInit', function(){
+                            window.console && console.log('beforeInit...');
+                        });
+                        container.pagination(options);
+
+                        container.addHook('beforePageOnClick', function(){
+                            window.console && console.log('beforePageOnClick...');
+                            //return false
+                        });
+                        console.log(container);
+                    };
+                    createDemo('demo1');
+                }else {
+                    alert("未查询到结果！")
+                }
+            },
+            error: function(data) {
+                alert("网络服务器异常！");
+            }
+        })
+    });
+    }
+</script>
+</body>
+</html>
